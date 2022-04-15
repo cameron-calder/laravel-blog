@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PostFeedbackController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +24,7 @@ Route::middleware(['auth'])
     ->group(function () {
         Route::get('/posts', [PostController::class, 'index'])
             ->name('posts');
-        Route::get('/post/view/{post}', [PostController::class, 'show'])
+        Route::get('/post/view/{post_id}', [PostController::class, 'show'])
             ->name('post.view');
         Route::get('/post/create', [PostController::class, 'create'])
             ->name('post.create');
@@ -34,6 +36,12 @@ Route::middleware(['auth'])
             ->name('post.edit.submit');
         Route::post('/post/delete/{post}', [PostController::class, 'destroy'])
             ->name('post.delete');
+
+        Route::post('/post/comment/{post}', [CommentController::class, 'store'])
+            ->name('post.comment.submit');
+
+        Route::post('/post/feedback/update', [PostFeedbackController::class, 'store'])
+            ->name('post.feedback.update');
     });
 
 

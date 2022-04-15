@@ -4,7 +4,13 @@
 
     <div class="container">
         <div class="d-flex align-items-center justify-content-between">
-            <h1>{{ $post->exists ? 'Edit' : 'Create' }} Post</h1>
+            <h1>
+                @if ($post->exists) 
+                    Edit Post #{{ $post->id }}
+                @else
+                    Create Post
+                @endif
+            </h1>
         </div>
 
         <hr>
@@ -34,9 +40,9 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary">
-                                Create
+                                {{ $post->exists ? 'Update' : 'Create' }}
                             </button>
-                            <a href="{{ route('posts') }}" class="btn btn-secondary">
+                            <a href="{{ $post->exists ? route('post.view', $post->id) : route('posts') }}" class="btn btn-secondary">
                                 Cancel
                             </a>
                         </form>

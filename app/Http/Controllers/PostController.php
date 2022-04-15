@@ -57,8 +57,16 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(int $post_id)
     {
+        $post = Post::with([
+                'comments' => function ($query) {
+                    $query->orderByDesc('created_at');
+                },
+            ])
+            ->where('id', $post_id)
+            ->firstOrFail();
+
         return view('post.show')
             ->with('post', $post);
     }

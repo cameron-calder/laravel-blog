@@ -14,6 +14,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
         crossorigin="anonymous">
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
@@ -23,6 +24,13 @@
     
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <style>
+        .disabled {
+            pointer-events: none;
+            opacity: 0.75;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -90,5 +98,39 @@
             @yield('content')
         </main>
     </div>
+    
+    <script>
+        $(document).ready(function () {
+            $('.post-feedback-actions').on('click', 'button[data-feedback-type]', function () {
+                let feedbackType = $(this).data('feedback-type');
+                let postId = $(this).data('post-id');
+                let container = $(this).closest('.post-feedback-actions');
+                
+                container.addClass('disabled');
+
+                $.ajax({
+                    url: '{{ route('post.feedback.update') }}',
+                    method: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        type: feedbackType,
+                        post_id: postId,
+                    },
+                    success: function (html) {
+                        let btnSelector = '.post-feedback-buttons';
+                        let content =  $(html).find(btnSelector).html();
+
+                        container.find(btnSelector).html(content);
+                    },
+                    error: function () {
+                        alert('Error sending request');
+                    },
+                    complete: function () {
+                        container.removeClass('disabled');
+                    },
+                });
+            });
+        });
+    </script>
 </body>
 </html>

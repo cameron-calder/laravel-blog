@@ -42,14 +42,8 @@
                                     </a>
                                 @endif
 
-                                <button class="btn ms-2">
-                                    <i class="bi bi-hand-thumbs-up"></i>
-                                    0
-                                </button>
-                                <button class="btn ms-2">
-                                    <i class="bi bi-hand-thumbs-down"></i>
-                                    0
-                                </button>
+
+                                <x-post-feedback-actions :post="$post"></x-post-feedback-actions>
                             </div>
                         </div>
                     </div>

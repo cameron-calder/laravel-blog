@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostFeedbackController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,9 @@ Route::middleware(['auth'])
             ->name('comment.delete');
         Route::post('/post/comment/update/{comment}', [CommentController::class, 'update'])
             ->name('comment.update');
+
+        Route::get('/notifications', [NotificationController::class, 'index'])
+            ->name('notifications');
     });
 
 

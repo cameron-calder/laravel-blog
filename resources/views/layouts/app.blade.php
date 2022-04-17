@@ -88,6 +88,13 @@
                                     </form>
                                 </div>
                             </li>
+                            
+                            <li class="nav-item ms-1">
+                                <a class="btn btn-secondary" href="{{ route('notifications') }}">
+                                    <i class="bi bi-bell"></i>
+                                    {{ auth()->user()->unreadNotifications()->count() }}
+                                </a>
+                            </li>
                         @endguest
                     </ul>
                 </div>

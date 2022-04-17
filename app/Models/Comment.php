@@ -38,4 +38,12 @@ class Comment extends Model
         }
         return $this->isOwner() || $this->post->isOwner() || auth()->user()->isAdmin();
     }
+    
+    public function canUpdate()
+    {
+        if (auth()->guest()) {
+            return false;
+        }
+        return $this->isOwner();
+    }
 }

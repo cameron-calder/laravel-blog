@@ -79,7 +79,7 @@
                                             {{ $comment->created_at->diffForHumans() }}
                                         </span>
                                         @if ($comment->isOwner())
-                                            <a href="#" class="btn btn-sm btn-outline-primary ms-2">
+                                            <a href="#" class="btn btn-sm btn-outline-primary btn-edit-comment ms-2">
                                                 Edit
                                             </a>
                                         @endif
@@ -95,7 +95,7 @@
                                         @endif
                                     </div>
 
-                                    <p>
+                                    <p class="content">
                                         {{ $comment->content }}
                                     </p>
 
@@ -108,8 +108,47 @@
         </div>
     </div>
 
-    {{-- <script>
-        $(document).ready()
-    </script> --}}
+    <div class="modal fade" id="edit-comment-modal">
+        <div class="modal-dialog">
+            <form class="modal-content" method="POST" data-action="{{ route('comment.update', '') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Comment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @csrf
+
+                    <div class="form-floating mb-3">
+                        <textarea name="comment" class="form-control" placeholder="Edit comment here..." rows="6"></textarea>
+                        <label for="floatingTextarea">Edit comment...</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Would've preferred to use Livewire
+        $(document).ready(function () {
+            var modal = $('#edit-comment-modal');
+
+            $('.btn-edit-comment').click(function () {
+                let comment = $(this).closest('.comment');
+                let content = comment.find('.content');
+                let form = modal.find('form');
+                let action = form.data('action');
+                    action += '/' + comment.data('id');
+                let value = content.text().trim();
+                
+                modal.find('textarea').val(value);
+                form.attr('action', action);
+                modal.modal('show');
+            });
+        });
+    </script>
 
 @endsection

@@ -45,6 +45,8 @@ Route::middleware(['auth'])
             ->name('post.comment.submit');
         Route::post('/post/comment/delete/{comment}', [CommentController::class, 'destroy'])
             ->name('comment.delete');
+        Route::post('/post/comment/update/{comment}', [CommentController::class, 'update'])
+            ->name('comment.update');
     });
 
 

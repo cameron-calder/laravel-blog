@@ -76,9 +76,18 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateCommentRequest $request, Comment $comment)
     {
-        //
+        if (!$comment->canUpdate()) {
+            abort(403, 'You do not have permission to update this comment');
+        }
+
+        $comment->update([
+            'content' => $request->get('comment'),
+        ]);
+        
+        return redirect()
+            ->route('post.view', $comment->post->id);
     }
 
     /**

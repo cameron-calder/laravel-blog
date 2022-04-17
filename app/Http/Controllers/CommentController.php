@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCommentRequest;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -86,8 +87,15 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
-        //
+        if (!$comment->canDelete()) {
+            abort(403, 'You do not have permission to delete this comment');
+        }
+
+        $comment->delete();
+
+        return redirect()
+            ->route('post.view', $comment->post_id);
     }
 }

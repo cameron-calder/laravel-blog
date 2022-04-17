@@ -15,7 +15,7 @@ class Comment extends Model
 
     public function post()
     {
-        return $this->hasOne(Post::class);
+        return $this->belongsTo(Post::class);
     }
 
     public function user()
@@ -26,5 +26,10 @@ class Comment extends Model
     public function isOwner()
     {
         return $this->created_by == auth()->user()->id;
+    }
+
+    public function canDelete()
+    {
+        return $this->isOwner();
     }
 }

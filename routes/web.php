@@ -37,11 +37,14 @@ Route::middleware(['auth'])
         Route::post('/post/delete/{post}', [PostController::class, 'destroy'])
             ->name('post.delete');
 
-        Route::post('/post/comment/{post}', [CommentController::class, 'store'])
-            ->name('post.comment.submit');
-
-        Route::post('/post/feedback/update', [PostFeedbackController::class, 'store'])
+            
+            Route::post('/post/feedback/update', [PostFeedbackController::class, 'store'])
             ->name('post.feedback.update');
+            
+        Route::post('/post/comment/create/{post}', [CommentController::class, 'store'])
+            ->name('post.comment.submit');
+        Route::post('/post/comment/delete/{comment}', [CommentController::class, 'destroy'])
+            ->name('comment.delete');
     });
 
 

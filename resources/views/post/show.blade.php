@@ -71,7 +71,7 @@
                         <div class="row row-cols-1">
                             @foreach ($post->comments as $comment)
                                 <div class="col comment" data-id="{{ $comment->id }}">
-                                    <div>
+                                    <div class="d-flex">
                                         <span class="fw-bold">{{ $comment->user->name }}</span>
                                         <span class="text-muted ms-1" title="{{ $comment->created_at->format('d/m/Y H:i') }}">
                                             {{ $comment->created_at->diffForHumans() }}
@@ -80,9 +80,13 @@
                                             <a href="#" class="btn btn-sm btn-outline-primary ms-2">
                                                 Edit
                                             </a>
-                                            <a href="#" class="btn btn-sm btn-outline-danger ms-1">
-                                                Delete
-                                            </a>
+                                            <form method="POST" action="{{ route('comment.delete', $comment->id) }}">
+                                                @csrf
+
+                                                <button type="submit" class="btn btn-sm btn-outline-danger ms-1">
+                                                    Delete
+                                                </button>
+                                            </form>
                                         @endif
                                     </div>
 

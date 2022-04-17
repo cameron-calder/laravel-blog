@@ -7,21 +7,23 @@
         <div class="d-flex align-items-center justify-content-between">
             <h1>Post #{{ $post->id }}</h1>
 
-            @if ($post->isOwner())
                 <div>
-                    <a href="{{ route('post.edit', $post->id) }}" class="btn btn-secondary">
-                        Edit
-                    </a>
+                    @if ($post->isOwner())
+                        <a href="{{ route('post.edit', $post->id) }}" class="btn btn-secondary">
+                            Edit
+                        </a>
+                    @endif
     
-                    <form method="POST" action="{{ route('post.delete', $post->id) }}" class="d-inline">
-                        @csrf
-    
-                        <button type="submit" class="btn btn-danger">
-                            Delete
-                        </button>
-                    </form>
+                    @if ($post->canDelete())
+                        <form method="POST" action="{{ route('post.delete', $post->id) }}" class="d-inline">
+                            @csrf
+        
+                            <button type="submit" class="btn btn-danger">
+                                Delete
+                            </button>
+                        </form>
+                    @endif
                 </div>
-            @endif
         </div>
 
         <hr>
@@ -80,10 +82,13 @@
                                             <a href="#" class="btn btn-sm btn-outline-primary ms-2">
                                                 Edit
                                             </a>
-                                            <form method="POST" action="{{ route('comment.delete', $comment->id) }}">
+                                        @endif
+
+                                        @if ($comment->canDelete())
+                                            <form method="POST" action="{{ route('comment.delete', $comment->id) }}" class="ms-1">
                                                 @csrf
 
-                                                <button type="submit" class="btn btn-sm btn-outline-danger ms-1">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">
                                                     Delete
                                                 </button>
                                             </form>

@@ -24,6 +24,9 @@
                             
                             <div class="text-muted mb-3">
                                 <p class="m-0">
+                                    Comments: {{ $post->comments_count }}
+                                </p>
+                                <p class="m-0">
                                     Created By: {{ $post->user->name ?? null }}
                                 </p>
                                 <p class="m-0" title="{{ $post->created_at->format('d/m/Y H:i') }}">

@@ -56,6 +56,9 @@ class Post extends Model
 
     public function isOwner()
     {
+        if (auth()->guest()) {
+            return false;
+        }
         return $this->created_by == auth()->user()->id;
     }
 
@@ -67,5 +70,13 @@ class Post extends Model
     public function isUserDisliked()
     {
         return $this->userFeedback?->type == 'dislike' ?? false;
+    }
+    
+    public function canDelete()
+    {
+        if (auth()->guest()) {
+            return false;
+        }
+        return $this->isOwner() || auth()->user()->isAdmin();
     }
 }

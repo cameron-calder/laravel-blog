@@ -25,11 +25,17 @@ class Comment extends Model
 
     public function isOwner()
     {
+        if (auth()->guest()) {
+            return false;
+        }
         return $this->created_by == auth()->user()->id;
     }
 
     public function canDelete()
     {
-        return $this->isOwner();
+        if (auth()->guest()) {
+            return false;
+        }
+        return $this->isOwner() || $this->post->isOwner() || auth()->user()->isAdmin();
     }
 }

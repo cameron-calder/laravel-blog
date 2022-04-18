@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostFeedbackController;
 use App\Http\Controllers\PostController;
@@ -18,11 +19,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->guest()) {
+        return redirect()->route('login');
+    }
+    return redirect()->route('home');
 });
 
 Route::middleware(['auth'])
     ->group(function () {
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+
         Route::get('/posts', [PostController::class, 'index'])
             ->name('posts');
         Route::get('/post/view/{post_id}', [PostController::class, 'show'])
@@ -39,7 +45,7 @@ Route::middleware(['auth'])
             ->name('post.delete');
 
             
-            Route::post('/post/feedback/update', [PostFeedbackController::class, 'store'])
+        Route::post('/post/feedback/update', [PostFeedbackController::class, 'store'])
             ->name('post.feedback.update');
             
         Route::post('/post/comment/create/{post}', [CommentController::class, 'store'])
@@ -55,5 +61,3 @@ Route::middleware(['auth'])
 
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

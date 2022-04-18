@@ -16,3 +16,5 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 Ensure you are using >= PHP 8.
 
 Register an API Key with `https://freegeoip.app/` and modify your `.env` file
+
+Run `php artisan storage:link`

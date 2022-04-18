@@ -2,27 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Services\IpAddressLookup;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $location = app()
+            ->make(IpAddressLookup::class)
+            ->search($request->ip());
+
+        $notifications = auth()->user()
+            ->unreadNotifications()
+            ->orderByDesc('created_at')
+            ->limit(5)
+            ->get();
+
+        $posts = Post::orderByDesc('created_at')
+            ->limit(10)
+            ->get();
+        
+
+        return view('home')
+            ->with('location', $location)
+            ->with('notifications', $notifications)
+            ->with('posts', $posts);
     }
 }

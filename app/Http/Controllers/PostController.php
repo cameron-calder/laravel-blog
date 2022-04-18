@@ -13,10 +13,15 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::withCount('comments')
-            ->paginate(10);
+        $posts = Post::withCount('comments');
+
+        if ($created_by = $request->get('created_by')) {
+            $posts = $posts->where('created_by', $created_by);
+        }
+
+        $posts = $posts->paginate(12);
         
         return view('post.index')
             ->with('posts', $posts);

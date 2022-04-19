@@ -80,7 +80,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('posts', ['created_by' => auth()->user()->id]) }}">
+                                    <a class="dropdown-item" href="{{ route('posts.user') }}">
                                         {{ __('Your Posts') }}
                                     </a>
 

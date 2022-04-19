@@ -31,6 +31,8 @@ Route::middleware(['auth'])
 
         Route::get('/posts', [PostController::class, 'index'])
             ->name('posts');
+        Route::get('/posts/user', [PostController::class, 'userPosts'])
+            ->name('posts.user');
         Route::get('/post/view/{post_id}', [PostController::class, 'show'])
             ->name('post.view');
         Route::get('/post/create', [PostController::class, 'create'])

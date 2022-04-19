@@ -13,7 +13,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $posts = Post::withCount([
                 'comments',
@@ -23,14 +23,31 @@ class PostController extends Controller
             ->with([
                 'userFeedback',
                 'user',
-            ]);
-
-        if ($created_by = $request->get('created_by')) {
-            $posts = $posts->where('created_by', $created_by);
-        }
-
-        $posts = $posts->paginate(12);
+            ])
+            ->paginate(12);
         
+        return view('post.index')
+            ->with('posts', $posts);
+    }
+
+    /**
+     * 
+     */
+    public function userPosts()
+    {
+        $posts = auth()->user()
+            ->posts()
+            ->withCount([
+                'comments',
+                'likeFeedback',
+                'dislikeFeedback',
+            ])
+            ->with([
+                'userFeedback',
+                'user',
+            ])
+            ->paginate(12);
+
         return view('post.index')
             ->with('posts', $posts);
     }
@@ -133,7 +150,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if (!$post->isOwner()) {
+        if (!$post->canDelete()) {
             abort(403, 'You do not have permission to delete this post');
         }
 

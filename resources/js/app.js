@@ -1,15 +1,15 @@
+
 $(document).ready(function () {
     $('.post-feedback-actions').on('click', 'button[data-feedback-type]', function () {
         let feedbackType = $(this).data('feedback-type');
         let postId = $(this).data('post-id');
         let container = $(this).closest('.post-feedback-actions');
-        let likeBtn = container.find('.btn-like');
-        let dislikeBtn = container.find('.btn-dislike');
+        let actionUrl = container.data('action-url');
         
         container.addClass('disabled');
 
         $.ajax({
-            url: '{{ route('post.feedback.update') }}',
+            url: actionUrl,
             method: 'POST',
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
@@ -18,9 +18,9 @@ $(document).ready(function () {
             },
             success: function (html) {
                 let btnSelector = '.post-feedback-buttons';
-                let btnHtml =  $(html).find(btnSelector);
+                let content =  $(html).find(btnSelector).html();
 
-                container.find(btnSelector).html(btnHtml);
+                container.find(btnSelector).html(content);
             },
             error: function () {
                 alert('Error sending request');

@@ -84,9 +84,9 @@
                                         {{ __('Your Posts') }}
                                     </a>
 
-                                    <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -113,38 +113,6 @@
         </main>
     </div>
     
-    <script>
-        $(document).ready(function () {
-            $('.post-feedback-actions').on('click', 'button[data-feedback-type]', function () {
-                let feedbackType = $(this).data('feedback-type');
-                let postId = $(this).data('post-id');
-                let container = $(this).closest('.post-feedback-actions');
-                
-                container.addClass('disabled');
-
-                $.ajax({
-                    url: '{{ route('post.feedback.update') }}',
-                    method: 'POST',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'),
-                        type: feedbackType,
-                        post_id: postId,
-                    },
-                    success: function (html) {
-                        let btnSelector = '.post-feedback-buttons';
-                        let content =  $(html).find(btnSelector).html();
-
-                        container.find(btnSelector).html(content);
-                    },
-                    error: function () {
-                        alert('Error sending request');
-                    },
-                    complete: function () {
-                        container.removeClass('disabled');
-                    },
-                });
-            });
-        });
-    </script>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

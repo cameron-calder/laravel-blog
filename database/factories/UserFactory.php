@@ -10,6 +10,11 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    public $roles = [
+        'default',
+        'admin',
+    ];
+
     /**
      * Define the model's default state.
      *
@@ -18,8 +23,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'role' => collect(['default', 'admin'])
-                ->random(),
+            'role' => collect($this->roles)->random(),
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),

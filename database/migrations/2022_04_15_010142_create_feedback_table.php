@@ -18,8 +18,19 @@ return new class extends Migration
             $table->integer('post_id')
                 ->unsigned();
             $table->string('type');
-            $table->integer('created_by');
+            $table->integer('created_by')
+                ->unsigned();
             $table->timestamps();
+            
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('post_id')
+                ->references('id')
+                ->on('posts')
+                ->onDelete('cascade');
         });
     }
 

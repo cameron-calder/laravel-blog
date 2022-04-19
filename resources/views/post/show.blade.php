@@ -15,7 +15,7 @@
                     @endif
     
                     @if ($post->canDelete())
-                        <form method="POST" action="{{ route('post.delete', $post->id) }}" class="d-inline">
+                        <form method="POST" action="{{ route('post.delete', $post->id) }}" class="d-inline" onSubmit="return confirm('You will be deleting this post. Proceed?');">
                             @csrf
         
                             <button type="submit" class="btn btn-danger">
@@ -54,7 +54,7 @@
             <div class="col-12 mt-4">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h5 class="card-title fw-bold mb-4">{{ count($post->comments) }} comments</h5>
+                        <h5 class="card-title fw-bold mb-4">{{ $post->comments_count }} comments</h5>
                         
                         <form class="mb-4" id="post-comment-form" method="POST" action="{{ route('post.comment.submit', $post->id) }}">
                             @csrf
@@ -71,7 +71,7 @@
                         </form>
 
                         <div class="row row-cols-1">
-                            @foreach ($post->comments as $comment)
+                            @foreach ($comments as $comment)
                                 <div class="col comment" data-id="{{ $comment->id }}">
                                     <div class="d-flex align-items-center">
                                         <span class="fw-bold">{{ $comment->user->name }}</span>
@@ -87,7 +87,7 @@
                                             @endif
 
                                             @if ($comment->canDelete())
-                                                <form method="POST" action="{{ route('comment.delete', $comment->id) }}">
+                                                <form method="POST" action="{{ route('comment.delete', $comment->id) }}" onSubmit="return confirm('You will be deleting this post. Proceed?');">
                                                     @csrf
     
                                                     <button type="submit" class="btn btn-sm btn-outline-danger">
@@ -104,6 +104,10 @@
                                     </p>
                                 </div>
                             @endforeach
+
+                            <div class="col-12">
+                                {!! $comments->links() !!}
+                            </div>
                         </div>
                     </div>
                 </div>

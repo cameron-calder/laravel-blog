@@ -30,8 +30,16 @@ class PostFeedbackController extends Controller
             $feedback->save();
         }
 
+        $post = $feedback->post()
+            ->withCount([
+                'likeFeedback', 
+                'dislikeFeedback',
+            ])
+            ->with(['userFeedback'])
+            ->first();
+
         return (new PostFeedbackActions())
             ->render()
-            ->with('post', $feedback->post);
+            ->with('post', $post);
     }
 }

@@ -15,7 +15,15 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::withCount('comments');
+        $posts = Post::withCount([
+                'comments',
+                'likeFeedback',
+                'dislikeFeedback',
+            ])
+            ->with([
+                'userFeedback',
+                'user',
+            ]);
 
         if ($created_by = $request->get('created_by')) {
             $posts = $posts->where('created_by', $created_by);
@@ -65,16 +73,22 @@ class PostController extends Controller
      */
     public function show(int $post_id)
     {
-        $post = Post::with([
-                'comments' => function ($query) {
-                    $query->orderByDesc('created_at');
-                },
-            ])
-            ->where('id', $post_id)
-            ->firstOrFail();
+        $post = Post::withCount([
+            'comments',
+            'likeFeedback', 
+            'dislikeFeedback',
+        ])
+        ->with(['userFeedback'])
+        ->where('id', $post_id)
+        ->firstOrFail();
+
+        $comments = $post->comments()
+            ->orderByDesc('created_at')
+            ->paginate(15);
 
         return view('post.show')
-            ->with('post', $post);
+            ->with('post', $post)
+            ->with('comments', $comments);
     }
 
     /**

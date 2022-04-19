@@ -16,7 +16,7 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Content</th>
+                                <th>Notification</th>
                                 <th>Created</th>
                             </tr>
                         </thead>

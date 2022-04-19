@@ -28,11 +28,11 @@
 
         <hr>
 
-        <div class="row row-cols-2 justify-content-center my-4">
-            <div class="col col-md-4">
+        <div class="row justify-content-center my-4">
+            <div class="col-12 col-md-4">
                 <img src="{{ $post->thumbnailUrl() }}" class="card-img-top" alt="Image could not found">
             </div>
-            <div class="col col-md-8">
+            <div class="col-12 col-md-8">
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">{{ $post->title }}</h5>
@@ -73,32 +73,35 @@
                         <div class="row row-cols-1">
                             @foreach ($post->comments as $comment)
                                 <div class="col comment" data-id="{{ $comment->id }}">
-                                    <div class="d-flex">
+                                    <div class="d-flex align-items-center">
                                         <span class="fw-bold">{{ $comment->user->name }}</span>
-                                        <span class="text-muted ms-1" title="{{ $comment->created_at->format('d/m/Y H:i') }}">
+                                        <small class="text-muted ms-2" title="{{ $comment->created_at->format('d/m/Y H:i') }}">
                                             {{ $comment->created_at->diffForHumans() }}
-                                        </span>
-                                        @if ($comment->isOwner())
-                                            <a href="#" class="btn btn-sm btn-outline-primary btn-edit-comment ms-2">
-                                                Edit
-                                            </a>
-                                        @endif
+                                        </small>
 
-                                        @if ($comment->canDelete())
-                                            <form method="POST" action="{{ route('comment.delete', $comment->id) }}" class="ms-1">
-                                                @csrf
+                                        <div class="d-flex ms-3">
+                                            @if ($comment->isOwner())
+                                                <a href="#" class="btn btn-sm btn-outline-primary btn-edit-comment me-1">
+                                                    Edit
+                                                </a>
+                                            @endif
 
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        @endif
+                                            @if ($comment->canDelete())
+                                                <form method="POST" action="{{ route('comment.delete', $comment->id) }}">
+                                                    @csrf
+    
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+
                                     </div>
 
                                     <p class="content">
                                         {{ $comment->content }}
                                     </p>
-
                                 </div>
                             @endforeach
                         </div>

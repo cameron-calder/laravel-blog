@@ -13,16 +13,16 @@
                         @csrf
 
                         <div class="row mb-3">
-                            <div class="col">
-                                <div class="form-floating mb-3">
+                            <div class="col-12">
+                                <div class="form-floating">
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                     <label for="floatingInput">{{ __('Email Address') }}</label>
                                 </div>
                             </div>
 
                             @error('email')
-                                <div class="col">
-                                    <span class="invalid-feedback" role="alert">
+                                <div class="col-12">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 </div>
@@ -31,16 +31,16 @@
 
                         
                         <div class="row mb-3">
-                            <div class="col">
-                                <div class="form-floating mb-3">
+                            <div class="col-12">
+                                <div class="form-floating">
                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                     <label for="floatingInput">{{ __('Password') }}</label>
                                 </div>
                             </div>
                             
                             @error('password')
-                                <div class="col">
-                                    <span class="invalid-feedback" role="alert">
+                                <div class="col-12">
+                                    <span class="invalid-feedback d-block" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 </div>
@@ -65,7 +65,7 @@
 
                         @if (Route::has('password.request'))
                             <div class="row text-center">
-                                <div class="col">
+                                <div class="col-12">
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>

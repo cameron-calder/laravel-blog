@@ -60,19 +60,25 @@
                                 </label>
                             </div>
                         </div>
+                    </form>
 
-                        <hr>
-
+                    <div class="row text-center mt-4">
+                        <div class="col-12">
+                            <a class="btn btn-link" href="{{ route('register') }}">
+                                {{ __('Create an Account') }}
+                            </a>
+                        </div>
                         @if (Route::has('password.request'))
-                            <div class="row text-center">
-                                <div class="col-12">
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                </div>
+                            <div class="col-12">
+                                <hr>
+                            </div>
+                            <div class="col-12">
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    {{ __('Forgot Your Password?') }}
+                                </a>
                             </div>
                         @endif
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -10,6 +10,14 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class PostFactory extends Factory
 {
+    public $thumbnails = [
+        'thumbnails/default-2.jpg',
+        'thumbnails/default-3.jpg',
+        'thumbnails/default-4.jpg',
+        'thumbnails/default-5.jpg',
+        'thumbnails/default-6.jpg',
+    ];
+
     /**
      * Define the model's default state.
      *
@@ -20,7 +28,8 @@ class PostFactory extends Factory
         return [
             'title' => $this->faker->text(50),
             'content' => $this->faker->text(),
-            'thumbnail_path' => Post::DEFAULT_THUMBNAIL,
+            'thumbnail_path' => collect($this->thumbnails)
+                ->random(),
         ];
     }
 }

@@ -6,7 +6,10 @@
         <div>
             <h1>Dashboard</h1>
             
-            You are logged in from {{ $location['region_name'] }}, {{ $location['country_name'] }}
+            You are logged in from 
+            {{ $location['region_name'] ?: '(unknown)' }}, 
+            {{ $location['country_name'] ?: '(unknown)' }}
+            ({{ $location['ip'] }})
         </div>
 
         <hr>
